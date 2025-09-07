@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Launch - AirShare</title>
+
+    <style>
+        /*
+            Body Styling:
+            - Sets the background image.
+            - 'background-size: cover' makes the image responsive,
+              ensuring it covers the entire viewport without distortion.
+            - 'background-position: center' keeps the image centered.
+        */
+        body {
+            margin: 0;
+            padding: 0;
+            /* Font stack with Cambria and Times New Roman as requested */
+            font-family: "Times New Roman", Cambria, serif;
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            /* This ensures the body fills the entire screen on all devices */
+            min-height: 100vh;
+            width: 100vw;
+            position: relative;
+            overflow: hidden; /* Prevents scrollbars if content overflows */
+        }
+
+        /*
+            Styling for the Floating Image (cea.png)
+            - 'position: absolute' makes it float on top of other content.
+            - 'top' and 'right' values control its placement from the top-right corner.
+            - The 'width' and 'height' properties are commented out as requested.
+        */
+        .floating-image {
+            position: absolute;
+            top: 5%;
+            right: 5%;
+            /* Uncomment the lines below to set a specific size for the image */
+            /*
+            width: 400px;
+            height: 200px;
+            */
+        }
+
+        /*
+            Button Container - Different approach using floating div
+            - Uses fixed positioning for precise control
+            - Container handles the positioning, button handles the styling
+        */
+        .button-container {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            pointer-events: none; /* Allows clicks to pass through container */
+            z-index: 100;
+        }
+
+        /*
+            Button positioning wrapper
+            - This div positions the button in the middle-lower area
+            - Uses flexbox for precise centering
+        */
+        .button-wrapper {
+            position: absolute;
+            top: 58%; /* Your original positioning - middle-lower area */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: auto; /* Re-enable clicks for the button area */
+        }
+
+        /*
+            Styling for the Launch Button
+            - Now uses relative positioning within its wrapper
+            - All your original sizing and appearance maintained
+        */
+        .launch-button {
+            position: relative;
+            display: inline-block;
+            
+            /* --- Button Appearance Settings --- */
+            /* Made the button bigger and increased font size accordingly */
+            padding: 55px 60px; /* Increased top/bottom padding for more height */
+            border: none;
+            border-radius: 120px;
+            cursor: pointer;
+            font-size: 3.4em; /* Increased font size for a bigger button */
+            font-weight: bold;
+			font-family: "Times New Roman", Cambria, serif;
+            
+            /* Darker gold gradient for the button background */
+            background: linear-gradient(135deg, #FFD700, #FFC107, #D4A450, #D2B46C);
+            /* Dark brown color for the text */
+            color: #402515; 
+
+            /* Smooth transition for all animated properties */
+            transition: all 0.4s ease-in-out;
+            
+            /* Remove default button outline on click */
+            outline: none;
+            
+            /* Enhanced shadow effect with subtle glow */
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.3),
+                0 4px 15px rgba(184, 134, 11, 0.2),
+                inset 0 2px 5px rgba(255, 255, 255, 0.1);
+            
+            overflow: hidden; /* Important for the glowing pseudo-element */
+            z-index: 1;
+        }
+
+        /*
+            Pseudo-element for the Moving Glowing Effect
+            - This creates a layer that will be animated to look like a moving glow.
+            - Moves diagonally from top-left to bottom-right on hover
+        */
+        .launch-button::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 200%;
+            height: 200%;
+            /* Enhanced glow with golden tint */
+            background: linear-gradient(
+                45deg, 
+                transparent 30%, 
+                rgba(255, 255, 255, 0.8) 40%, 
+                rgba(255, 223, 0, 0.6) 45%, 
+                rgba(255, 255, 255, 0.8) 50%, 
+                transparent 60%
+            );
+            transform: translateX(-100%) translateY(-100%);
+            transition: all 0.6s ease-in-out;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        /*
+            Hover Effects for the Button
+            - When the mouse is over the button, these styles are applied.
+            - The button slightly scales up.
+            - The text color changes slightly.
+            - The box-shadow becomes more prominent.
+            - The glowing pseudo-element becomes visible and animates.
+        */
+        .launch-button:hover {
+            transform: scale(1.05); /* Only scale, no translate needed now */
+            
+            /* Enhanced hover shadow with golden glow */
+            box-shadow: 
+                0 12px 35px rgba(0, 0, 0, 0.4),
+                0 6px 25px rgba(184, 134, 11, 0.4),
+                0 0 30px rgba(255, 223, 0, 0.3),
+                inset 0 2px 5px rgba(255, 255, 255, 0.2);
+            
+            /* Brighter gradient on hover */
+            background: linear-gradient(135deg, #DAA520, #FFD700, #F4A460, #CD853F);
+            
+            /* Change font color on hover */
+            color: #3D2317; 
+        }
+
+        /* Animates the glow effect on hover - moves from top-left to bottom-right */
+        .launch-button:hover::before {
+            opacity: 1;
+            transform: translateX(100%) translateY(100%);
+        }
+
+        /*
+            Active/Click/Press Effect for the Button
+            - This is applied when the button is being pressed/held down.
+            - It gives the impression of the button being "pushed down".
+            - Enhanced with darker colors and reduced shadow
+        */
+        .launch-button:active {
+            transform: scale(0.97); /* Gentler scale decrease */
+            
+            /* ===== BUTTON COLOR - CHANGE HERE ===== */
+            /* Darker gradient when pressed - still lighter than before */
+            background: linear-gradient(135deg, #F8960B, #FAB520, #FD953F, #FCAA6A);
+            
+            /* Reduced shadow when pressed */
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.5),
+                0 2px 8px rgba(184, 134, 11, 0.3),
+                inset 0 3px 8px rgba(0, 0, 0, 0.2);
+            
+            /* Darker text when pressed */
+            color: #2D1810;
+            
+            /* Much slower transition for smoother press response */
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Remove glow effect when button is being pressed */
+        .launch-button:active::before {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!--
+        Transparent Image (cea.png)
+        This div is positioned relative to the viewport.
+        You can adjust the 'top' and 'right' properties
+        to change its position.
+        The width and height are commented out as requested.
+    -->
+    
+	
+	<!--
+	<img src="cea.png" alt="Transparent image" class="floating-image">
+	-->
+
+    <!--
+        Button Container - New approach with floating divs
+        - Container handles viewport positioning
+        - Wrapper handles exact button placement
+        - Button handles styling and effects
+    -->
+    <div class="button-container">
+        <div class="button-wrapper">
+            <button class="launch-button" onclick="window.location.href='Auto-Launch_AQ.CEA.LK.htm'">
+                Click Here to Start!
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>
