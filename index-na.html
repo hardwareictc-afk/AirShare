@@ -217,10 +217,6 @@ body, * {
 <body>
     <div class="matrix-rain" id="matrixRain"></div>
     
-<audio id="clickSound" preload="auto">
-    <source src="mouse-click.m4a" type="audio/aac">
-</audio>
-	
     <div class="launch-container">
         <button class="launch-button" id="launchButton">
             <div class="glitch-overlay"></div>
@@ -229,15 +225,6 @@ body, * {
     </div>
 
     <script>
-	
-const clickSound = document.getElementById('clickSound');
-const launchButton = document.getElementById('launchButton');
-
-launchButton.addEventListener('click', function() {
-    clickSound.currentTime = 0;
-    clickSound.play();
-});
-	
         class LaunchSequence {
             constructor() {
                 this.button = document.getElementById('launchButton');
@@ -456,7 +443,7 @@ launchButton.addEventListener('click', function() {
                         this.countdown--;
                     } else {
                         clearInterval(countdownInterval);
-                        this.buttonText.innerHTML = '<span class="launch-word">Launching....</span>';
+                        this.buttonText.innerHTML = '<span class="launch-word">Launching</span><br><span class="subtitle">the National Air Quality Network</span>';
                         this.button.classList.remove('countdown');
                         this.playFinalBeep();
                     }
