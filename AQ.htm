@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Launch the National Air Quality Network - CEA</title>
+    <title>Visit the National Air Quality Network - CEA</title>
 	<meta name="generator" content="Gadash, using Claude AI">
-	<meta name="description" content="Air Quality Launch Button Interface">
+	<meta name="description" content="Air Quality CEA Visit Button Interface">
     <style>
         * {
             margin: 0;
@@ -220,7 +220,7 @@ body, * {
     <div class="launch-container">
         <button class="launch-button" id="launchButton">
             <div class="glitch-overlay"></div>
-            <span class="button-text" id="buttonText">Click to Launch <br> <small>the National Air Quality Network</small></span>
+            <span class="button-text" id="buttonText">Click to Visit <br> <small>the National Air Quality Network <br> AQ.CEA.LK</small></span>
         </button>
     </div>
 
@@ -447,12 +447,12 @@ launchButton.addEventListener('click', function() {
                 
                 const countdownInterval = setInterval(() => {
                     if (this.countdown > 0) {
-                        this.buttonText.innerHTML = `Launching in ${this.countdown}`;
+                        this.buttonText.innerHTML = `Visiting in ${this.countdown}`;
                         this.playBeep();
                         this.countdown--;
                     } else {
                         clearInterval(countdownInterval);
-                        this.buttonText.innerHTML = '<span class="launch-word">Launching....</span>';
+                        this.buttonText.innerHTML = '<span class="launch-word">Visiting....</span>';
                         this.button.classList.remove('countdown');
                         this.playFinalBeep();
                     }
@@ -461,7 +461,7 @@ launchButton.addEventListener('click', function() {
 
             startLaunch() {
                 this.button.classList.add('launching');
-                this.buttonText.textContent = 'Launching...';
+                this.buttonText.textContent = 'Visiting...';
                 this.matrixRain.classList.add('intense');
                 
                 // Increase word creation rate during launch
